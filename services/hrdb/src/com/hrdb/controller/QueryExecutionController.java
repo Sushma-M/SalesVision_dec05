@@ -21,13 +21,15 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import com.hrdb.service.HrdbQueryExecutorService;
 import com.wavemaker.runtime.data.model.CustomQuery;
 import com.wavemaker.runtime.data.exception.QueryParameterMismatchException;
-import com.wordnik.swagger.annotations.*;
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiParam;
 import com.wavemaker.tools.api.core.annotations.WMAccessVisibility;
 import com.wavemaker.tools.api.core.models.AccessSpecifier;
 
 @RestController(value = "Hrdb.QueryExecutionController")
+@Api(value = "QueryExecutionController", description = "Controller class for query execution")
 @RequestMapping("/hrdb/queryExecutor")
-@Api(description = "Controller class for query execution", value = "QueryExecutionController")
 public class QueryExecutionController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(QueryExecutionController.class);
@@ -37,6 +39,7 @@ public class QueryExecutionController {
 
     @ApiOperation(value = "Process request to execute queries")
     @RequestMapping(value = "/queries/empCount", method = RequestMethod.GET)
+    @WMAccessVisibility(value = AccessSpecifier.APP_ONLY)
     public Page<Object> executeEmpCount(Pageable pageable) {
         LOGGER.debug("Executing named query empCount");
         Page<Object> result = queryService.executeEmpCount(pageable);
@@ -44,17 +47,18 @@ public class QueryExecutionController {
         return result;
     }
 
-    @RequestMapping(value = "/queries/wm_custom", method = RequestMethod.POST)
     @ApiOperation(value = "Process request to execute customer queries")
+    @RequestMapping(value = "/queries/wm_custom", method = RequestMethod.POST)
+    @WMAccessVisibility(value = AccessSpecifier.APP_ONLY)
     public Page<Object> executeWMCustomQuery(@RequestBody CustomQuery query, Pageable pageable) {
         Page<Object> result = queryService.executeWMCustomQuerySelect(query, pageable);
         LOGGER.debug("got the result {}" + result);
         return result;
     }
 
+    @ApiOperation(value = "Process request to execute customer queries")
     @RequestMapping(value = "/queries/wm_custom_update", method = RequestMethod.POST)
     @WMAccessVisibility(value = AccessSpecifier.APP_ONLY)
-    @ApiOperation(value = "Process request to execute customer queries")
     public int executeWMCustomQuery(@RequestBody CustomQuery query) {
         int result = queryService.executeWMCustomQueryUpdate(query);
         LOGGER.debug("got the result {}" + result);
