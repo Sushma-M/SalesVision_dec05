@@ -35,12 +35,12 @@ public class QuotesServiceImpl implements QuotesService {
     private static final Logger LOGGER = LoggerFactory.getLogger(QuotesServiceImpl.class);
 
     @Autowired
-	@Qualifier("salesdb.FollowUpsService")
-	private FollowUpsService followUpsService;
-
-    @Autowired
 	@Qualifier("salesdb.SalesService")
 	private SalesService salesService;
+
+    @Autowired
+	@Qualifier("salesdb.FollowUpsService")
+	private FollowUpsService followUpsService;
 
     @Autowired
     @Qualifier("salesdb.QuotesDao")
@@ -169,19 +169,19 @@ public class QuotesServiceImpl implements QuotesService {
     /**
 	 * This setter method should only be used by unit tests
 	 *
-	 * @param service FollowUpsService instance
+	 * @param service SalesService instance
 	 */
-	protected void setFollowUpsService(FollowUpsService service) {
-        this.followUpsService = service;
+	protected void setSalesService(SalesService service) {
+        this.salesService = service;
     }
 
     /**
 	 * This setter method should only be used by unit tests
 	 *
-	 * @param service SalesService instance
+	 * @param service FollowUpsService instance
 	 */
-	protected void setSalesService(SalesService service) {
-        this.salesService = service;
+	protected void setFollowUpsService(FollowUpsService service) {
+        this.followUpsService = service;
     }
 
 }
