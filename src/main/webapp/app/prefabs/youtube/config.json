@@ -21,6 +21,10 @@
         "height": {
             "type": "string",
             "value": "360"
+        },
+        "allowfullscreen": {
+            "type": "boolean",
+            "value": true
         }
     }
 }

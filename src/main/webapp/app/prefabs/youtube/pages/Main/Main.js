@@ -17,6 +17,13 @@ Application.$controller('YoutubeController', ['$scope', '$sce', 'Utils', functio
             newVal += (newVal.indexOf("?") === -1 ? "?" : "&") + "wmode=transparent";
             $scope.url = $sce.trustAsResourceUrl(newVal);
             break;
+        case "allowfullscreen":
+            var iframeEl = WM.element('[data-youtube-frame-id="' + $scope.$id + '"]');
+            if (!iframeEl.length) {
+                iframeEl = WM.element("[data-ng-controller='YoutubeController']>iframe");
+            }
+            newVal ? iframeEl.attr(key, key) : iframeEl.removeAttr(key);
+            break;
         }
     }
 

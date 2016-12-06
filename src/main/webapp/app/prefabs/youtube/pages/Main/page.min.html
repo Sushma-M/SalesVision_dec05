@@ -20,6 +20,13 @@ Application.$controller('YoutubeController', ['$scope', '$sce', 'Utils', functio
             newVal += (newVal.indexOf("?") === -1 ? "?" : "&") + "wmode=transparent";
             $scope.url = $sce.trustAsResourceUrl(newVal);
             break;
+        case "allowfullscreen":
+            var iframeEl = WM.element('[data-youtube-frame-id="' + $scope.$id + '"]');
+            if (!iframeEl.length) {
+                iframeEl = WM.element("[data-ng-controller='YoutubeController']>iframe");
+            }
+            newVal ? iframeEl.attr(key, key) : iframeEl.removeAttr(key);
+            break;
         }
     }
 
@@ -36,7 +43,7 @@ Application.$controller('YoutubeController', ['$scope', '$sce', 'Utils', functio
 var _MainPage_Variables_ ={ }
 </script>
 <script id="Main.html" type="text/ng-template">
-<div class="embed-responsive embed-responsive-16by9" data-ng-controller="YoutubeController"> 
-    <iframe class="embed-responsive-item" ng-src="{{url}}" wmode="Opaque"></iframe> 
+<div class="embed-responsive embed-responsive-16by9" data-ng-controller="YoutubeController">
+    <iframe class="embed-responsive-item" ng-src="{{url}}" wmode="Opaque" data-youtube-frame-id="{{::$id}}"></iframe>
 </div>
 </script>
